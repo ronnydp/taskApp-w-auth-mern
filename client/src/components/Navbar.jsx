@@ -1,9 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import Dropdown from "./Dropdown";
 
 function Navbar() {
-  const { isAuthenticated, user, logout } = useAuth();
+  const { isAuthenticated} = useAuth();
   return (
     <nav className="bg-zinc-700 my-3 mx-3 flex justify-between py-5 px-10 rounded-lg">
       <Link to={isAuthenticated ? "/tasks" : "/"}>
@@ -13,20 +14,7 @@ function Navbar() {
         {isAuthenticated ? (
           <>
             <li>
-              <Link>Welcome {user.username}</Link>
-            </li>
-            <li>
-              <Link to={"/add-task"} className="bg-indigo-500 px-4 py-1 rounded-sm hover:bg-indigo-700">Añadir tarea</Link>
-            </li>
-            <li>
-              <Link
-                to={"/"}
-                onClick={() => {
-                  logout();
-                }}
-              >
-                Cerrar sesión
-              </Link>
+              <Dropdown/>
             </li>
           </>
         ) : (
