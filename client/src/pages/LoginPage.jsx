@@ -22,11 +22,11 @@ function LoginPage() {
   return (
     <div className="flex h-[calc(100vh-100px)] items-center justify-center ">
       <div className="bg-zinc-800 max-w-md w-full p-10 rounded-md ">
-        <h1 className="text-2xl font-bold">Iniciar sesión</h1>
+        <h1 className="text-3xl font-bold">Iniciar sesión</h1>
         {loginErrors.map((error, index) => (
           <div
             key={index}
-            className="bg-red-500 text-white p-2 my-2 rounded-md"
+            className="bg-red-500 text-white text-lg font-semibold p-2 my-2 rounded-md"
           >
             {error}
           </div>
@@ -35,27 +35,27 @@ function LoginPage() {
           <input
             type="email"
             {...register("email", { required: true })}
-            className="w-full bg-zinc-700 text-white px-4 py-2 rounded-md my-2"
+            className="w-full bg-zinc-700 text-white text-lg px-4 py-2 rounded-md my-2"
             placeholder="Correo electrónico"
           />
-          {errors.email && <p className="text-red-500">Correo es requerido</p>}
+          {errors.email && <p className="text-red-500 text-lg font-semibold">Correo es requerido</p>}
           <input
             type="password"
             {...register("password", { required: true })}
-            className="w-full bg-zinc-700 text-white px-4 py-2 rounded-md my-2"
+            className="w-full bg-zinc-700 text-white text-lg px-4 py-2 rounded-md my-2"
             placeholder="Contraseña"
           />
           {errors.password && (
-            <p className="text-red-500">Contraseña es requerida</p>
+            <p className="text-red-500 text-lg font-semibold">Contraseña es requerida</p>
           )}
           <button
             type="submit"
-            className="w-full bg-green-500 hover:bg-green-700 font-bold py-2 px-4 rounded-md my-2 cursor-pointer"
+            className="w-full bg-green-500 hover:bg-green-700 text-lg font-bold py-2 px-4 rounded-md my-2 cursor-pointer"
           >
             Acceder
           </button>
         </form>
-        <p className="flex gap-2 text-sm justify-between ">
+        <p className="flex gap-2 justify-between ">
           No tienes cuenta aún?{" "}
           <Link
             to="/register"

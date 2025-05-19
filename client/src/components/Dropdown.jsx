@@ -8,7 +8,7 @@ function Dropdown() {
   return (
     <Menu as="div" className="relative inline-block tet-left">
       <div>
-        <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-zinc-700 px-3 py-2 font-bold text-white-900 shadow-xs ring-1 ring-zinc-700 ring-inset hover:bg-zinc-500 cursor-pointer">
+        <MenuButton className="inline-flex w-full text-lg justify-center gap-x-1.5 rounded-md bg-zinc-700 px-3 py-2 font-bold text-white-900 shadow-xs ring-1 ring-zinc-700 ring-inset hover:bg-zinc-500 cursor-pointer">
           {user.username.toUpperCase()}
           <ChevronDownIcon
             aria-hidden="true"
@@ -19,21 +19,21 @@ function Dropdown() {
 
       <MenuItems
         transition
-        className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black/5 transition focus:outline-hidden data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
+        className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-zinc-700 shadow-lg ring-1 ring-black/5 transition focus:outline-hidden data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
       >
         <div className="py-1">
           <MenuItem>
-            <a
-              href="#"
-              className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden"
+            <Link
+              to={`/profile`}
+              className="block px-4 py-2 text-lg text-white-700 data-focus:bg-zinc-800 data-focus:text-white-900 data-focus:outline-hidden"
             >
               Cuenta
-            </a>
+            </Link>
           </MenuItem>
 
           <MenuItem>
             <Link
-              className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden"
+              className="block px-4 py-2 text-lg text-white-700 data-focus:bg-zinc-800 data-focus:text-white-900 data-focus:outline-hidden"
               to={"/"}
               onClick={() => {
                 logout();

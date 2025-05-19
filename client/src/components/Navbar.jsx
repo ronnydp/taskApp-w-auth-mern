@@ -8,7 +8,7 @@ function Navbar() {
   return (
     <nav className="bg-zinc-700 my-3 mx-3 flex justify-between py-5 px-10 rounded-lg">
       <Link to={isAuthenticated ? "/tasks" : "/"}>
-        <h1 className="text-2xl font-bold ">Gestor de Tareas</h1>
+        <h1 className="text-4xl font-bold ">GESTOR DE TAREAS</h1>
       </Link>
       <ul className="flex gap-x-2">
         {isAuthenticated ? (
@@ -20,10 +20,10 @@ function Navbar() {
         ) : (
           <>
             <li>
-              <Link to={"/login"} className="bg-indigo-500 px-4 py-1 rounded-sm hover:bg-indigo-700">Iniciar sesión</Link>
+              <Link to={"/login"} className="bg-indigo-500 font-semibold text-lg px-4 py-1 rounded-sm hover:bg-indigo-700">Iniciar sesión</Link>
             </li>
             <li>
-              <Link to={"/register"} className="bg-indigo-500 px-4 py-1 rounded-sm hover:bg-indigo-700">Registrarme</Link>
+              <Link to={"/register"} className="bg-indigo-500 text-lg font-semibold px-4 py-1 rounded-sm hover:bg-indigo-700">Registrarme</Link>
             </li>
           </>
         )}

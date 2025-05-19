@@ -43,75 +43,90 @@ function TaskFormPage() {
     }
   });
   return (
-    <div className="bg-zinc-800 w-full max-w-md p-10 rounded-md my-2 mx-3">
-      {taskErrors.map((error, index) => (
-        <div key={index} className="bg-red-500 text-white p-2 my-2 rounded-md">
-          {error}
-        </div>
-      ))}
-      <h1 className="text-2xl font-bold my">
+    <>
+      <h1 className="text-4xl font-bold mx-3">
         {params.id ? "Editar tarea" : "Añadir tarea"}
       </h1>
-      <form onSubmit={onSubmit}>
-        <input
-          type="text"
-          placeholder="Título de la tarea"
-          {...register("title", { required: true })}
-          autoFocus
-          className="w-full bg-zinc-700 text-white px-2 py-2 rounded-md my-2"
-        />
-        {errors.title && <p className="text-red-500">El título es requerido</p>}
-        <textarea
-          rows="3"
-          placeholder="Descripción"
-          {...register("description", { required: true })}
-          className="w-full bg-zinc-700 text-white px-2 py-2 rounded-md my-2"
-        ></textarea>
-        {errors.description && (
-          <p className="text-red-500">La descripción es requerida</p>
-        )}
-        <label htmlFor="date" className="font-semibold">
-          Fecha límite
-        </label>
-        <input
-          type="date"
-          id="date"
-          {...register("date", { required: true })}
-          className="w-full bg-zinc-700 text-white px-2 py-2 rounded-md my-2 disabled"
-        />
-        {errors.date && <p className="text-red-500">Fecha es requerida</p>}
-        <label htmlFor="date" className="font-semibold">
-          Estado
-        </label>
-        <div>
-          <select
-            {...register("completed", {
-              required: true,
-              setValuesAs: (value) => value === "true",
-            })}
-            className="w-full bg-zinc-700 text-white px-2 py-2 rounded-md my-2 cursor-pointer"
+      <div className="bg-zinc-800 w-full max-w-md p-10 rounded-md my-2 mx-3">
+        {taskErrors.map((error, index) => (
+          <div
+            key={index}
+            className="bg-red-500 text-white p-2 my-2 rounded-md"
           >
-            <option value="false">Pendiente</option>
-            <option value="true">Completada</option>
-          </select>
-        </div>
-        <div className="mt-10">
-          <button
-            type="submit"
-            className="w-full bg-indigo-500 hover:bg-indigo-700 font-bold py-2 px-4 rounded-md my-2 cursor-pointer"
-          >
-            Guardar
-          </button>
-          <button
-            type="button"
-            onClick={() => navigate("/tasks")}
-            className="w-full bg-red-500 hover:bg-red-700 font-bold py-2 px-4 rounded-md  cursor-pointer"
-          >
-            Cancelar
-          </button>
-        </div>
-      </form>
-    </div>
+            {error}
+          </div>
+        ))}
+        <form onSubmit={onSubmit}>
+          <label htmlFor="taskname" className="text-lg font-semibold">
+            Tarea
+          </label>
+          <input
+            id="taskname"
+            type="text"
+            placeholder="Título de la tarea"
+            {...register("title", { required: true })}
+            autoFocus
+            className="text-lg w-full bg-zinc-700 text-white px-2 py-2 rounded-md my-2"
+          />
+          {errors.title && (
+            <p className="text-red-500">El título es requerido</p>
+          )}
+          <label htmlFor="description" className="text-lg font-semibold">
+            Descripción
+          </label>
+          <textarea
+            id="description"
+            rows="3"
+            placeholder="Descripción"
+            {...register("description", { required: true })}
+            className="text-lg w-full bg-zinc-700 text-white px-2 py-2 rounded-md my-2"
+          ></textarea>
+          {errors.description && (
+            <p className="text-red-500">La descripción es requerida</p>
+          )}
+          <label htmlFor="date" className="text-lg font-semibold">
+            Fecha límite
+          </label>
+          <input
+            type="date"
+            id="date"
+            {...register("date", { required: true })}
+            className="text-lg w-full bg-zinc-700 text-white px-2 py-2 rounded-md my-2 disabled"
+          />
+          {errors.date && <p className="text-red-500">Fecha es requerida</p>}
+          <label htmlFor="date" className="text-lg font-semibold">
+            Estado
+          </label>
+          <div>
+            <select
+              {...register("completed", {
+                required: true,
+                setValuesAs: (value) => value === "true",
+              })}
+              className="text-lg w-full bg-zinc-700 text-white px-2 py-2 rounded-md my-2 cursor-pointer"
+            >
+              <option value="false">Pendiente</option>
+              <option value="true">Completada</option>
+            </select>
+          </div>
+          <div className="mt-10">
+            <button
+              type="submit"
+              className="text-lg w-full bg-indigo-500 hover:bg-indigo-700 font-bold py-2 px-4 rounded-md my-2 cursor-pointer"
+            >
+              Guardar
+            </button>
+            <button
+              type="button"
+              onClick={() => navigate("/tasks")}
+              className="text-lg w-full bg-red-500 hover:bg-red-700 font-semibold py-2 px-4 rounded-md  cursor-pointer"
+            >
+              Cancelar
+            </button>
+          </div>
+        </form>
+      </div>
+    </>
   );
 }
 

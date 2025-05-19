@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { loginRequest, registerRequest } from "../api/auth.js";
+import { loginRequest, registerRequest, updateProfileRequest } from "../api/auth.js";
 import Cookies from "js-cookie"; //Librería para manejar cookies en el navegador
 import { verifyTokenRequest } from "../api/auth.js";
 
@@ -51,6 +51,17 @@ export const AuthProvider = ({ children }) => {
     setIsAuthenticated(false);
   }
 
+  const updateProfile = async (id, user) => {
+    try {
+      await updateProfileRequest(id, user)
+      return true
+    } catch (error) {
+      console.log(error)
+      setErrors(error.response.data)
+      return false
+    }
+  }
+
   useEffect(() => {
     if (errors.length > 0) {
       //Si hay errores, se limpian después de 5 segundos
@@ -100,7 +111,8 @@ export const AuthProvider = ({ children }) => {
         errors,
         login,
         loading,
-        logout
+        logout,
+        updateProfile
       }}
     >
       {children}

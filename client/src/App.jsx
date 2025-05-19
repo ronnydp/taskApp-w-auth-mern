@@ -6,6 +6,7 @@ import HomePage from "./pages/HomePage";
 import TaskPage from "./pages/TaskPage";
 import TaskFormPage from "./pages/TaskFormPage";
 import Profile from "./pages/Profile";
+import ProfileForm from './pages/ProfileForm'
 
 import ProtectedRoute from "./ProtectedRoute";
 import { TaskProvider } from "./context/TasksContext";
@@ -28,6 +29,7 @@ function App() {
                 <Route path="/add-task" element={<TaskFormPage />} />
                 <Route path="/tasks/:id" element={<TaskFormPage />} />
                 <Route path="/profile" element={<Profile />} />
+                <Route path="/profile/:id" element={<ProfileForm />} />
               </Route>
             </Routes>
           </main>
