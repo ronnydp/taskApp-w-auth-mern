@@ -19,8 +19,6 @@ export const useTasks = () => {
   return context;
 };
 
-
-
 export function TaskProvider({ children }) {
   const [tasks, setTasks] = useState([]);
   const [errors, setErrors] = useState([]);
@@ -37,7 +35,6 @@ export function TaskProvider({ children }) {
       return false;
     }
   };
-
   const getTasks = async () => {
     try {
       const res = await getTasksRequest();
@@ -56,7 +53,6 @@ export function TaskProvider({ children }) {
       setErrors(error.response.data);
     }
   };
-
   const getTask = async (id) => {
     try {
       const task = await getTaskRequest(id);
@@ -66,7 +62,6 @@ export function TaskProvider({ children }) {
       setErrors(error.response.data);
     }
   };
-
   const updateTask = async (id, task) => {
     try {
       await updateTaskRequest(id, task)

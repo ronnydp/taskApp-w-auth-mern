@@ -32,7 +32,6 @@ export const AuthProvider = ({ children }) => {
       setErrors(error.response.data);
     }
   };
-
   const login = async (user) => {
     try {
       const res = await loginRequest(user);
@@ -43,14 +42,12 @@ export const AuthProvider = ({ children }) => {
       setErrors(error.response.data);
     }
   };
-
   const logout = () => {
     //Cerrar sesión
     Cookies.remove("token"); //Eliminar la cookie del token
     setUser(null);
     setIsAuthenticated(false);
   }
-
   const updateProfile = async (id, user) => {
     try {
       await updateProfileRequest(id, user)
@@ -61,7 +58,6 @@ export const AuthProvider = ({ children }) => {
       return false
     }
   }
-
   useEffect(() => {
     if (errors.length > 0) {
       //Si hay errores, se limpian después de 5 segundos
@@ -71,7 +67,6 @@ export const AuthProvider = ({ children }) => {
       return () => clearTimeout(timer); //Limpiar el timer, para no consumir recursos
     }
   }, [errors]);
-
   useEffect(() => {
     async function checkLogin() {
       const cookies = Cookies.get();
@@ -102,6 +97,7 @@ export const AuthProvider = ({ children }) => {
     }
     checkLogin();
   }, []);
+
   return (
     <AuthContext.Provider
       value={{

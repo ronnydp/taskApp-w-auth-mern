@@ -6,6 +6,9 @@ days.extend(utc);
 
 function TaskCard({ task }) {
   const { deleteTask } = useTasks();
+  const today = days();
+  const dueDate = days(task.date);
+  const diffDays = dueDate.diff(today, "day");
   return (
     <div className="flex flex-col justify-between bg-zinc-800 max-w-md w-full p-5 rounded-md">
       <div className="flex gap-x-2 items-center justify-end">
@@ -30,9 +33,16 @@ function TaskCard({ task }) {
       </div>
       <div className="flex justify-between items-center mt-7">
         {!task.completed && (
-          <p className="text-white-300 font-bold">{`⌛${days(task.date)
-            .utc()
-            .format("DD/MM/YYYY")}`}</p>
+          <div>
+            {diffDays >= 1 && (
+              <p className="text-white-300 font-bold">{`⌛${days(task.date)
+                .utc()
+                .format("DD-MM-YYYY")}`}</p>
+            )}
+            {diffDays === 0 && (
+              <p className="text-yellow-400 font-bold">⚠️ ¡Queda 1 día!</p>
+            )}
+          </div>
         )}
         <p
           className={

@@ -69,14 +69,7 @@ export const profile = async (req, res) => {
     const userFound = await User.findById(req.user.id);
 
     if (!userFound) return res.status(404).json(["Usuario no encontrado"]);
-
-    return res.json({
-      id: userFound._id,
-      username: userFound.username,
-      email: userFound.email,
-      createdAt: userFound.createdAt,
-      updatedAt: userFound.updatedAt,
-    });
+    return res.json(userFound);
   } catch (error) {
     console.error("Error al obtener el perfil del usuario:", error);
     return res.status(500).json(["Error al obtener el perfil del usuario"]);
@@ -100,3 +93,14 @@ export const verifyToken = async (req, res) => {
     });
   });
 };
+
+export const updateProfile = async (req, res) => {
+  try {
+    const user = await User.findByIdAndUpdate(req.params.id, req.body)
+    if(!user) return res.status(404).json(['Usuario no encontrado'])
+    return res.json(user)
+  } catch (error) {
+    if(error.errorResponse.code === 11000) return res.status(409).json(["Correo electrónico ya está en uso."])
+    return res.status(500).json(["Error del servidor."])
+  }
+}

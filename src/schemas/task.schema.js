@@ -5,6 +5,10 @@ export const createTaskSchema = z.object({
     message: "El título debe tener al menos 3 caracteres",
   }),
   description: z.string({ required_error: "La descripción es requerida" }),
-  completed: z.boolean().optional(),
-  date: z.string().datetime().optional(),
+  completed: z.preprocess((val) => {
+    if (typeof val === "string") return val === "true";
+    return val;
+  }, z.boolean()),
+
+  date: z.string({ required_error: "La fecha es requerida" }),
 });
