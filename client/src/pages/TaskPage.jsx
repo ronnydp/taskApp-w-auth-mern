@@ -11,12 +11,13 @@ function TaskPage() {
   // if (tasks.length === 0) return <h1 className="mx-3">No hay tareas</h1>;
   return (
     <div className="">
-      <div className="flex items-center mx-3 py-2 justify-end">
+      <div className="flex items-center mx-3 py-2 justify-between">
+        <h1 className="text-4xl font-bold">Mis tareas</h1>
         <Link
           to={"/add-task"}
-          className="bg-green-500 text-lg px-4 py-1 rounded-sm hover:bg-green-700 font-bold"
+          className="flex gap-2 bg-green-500 text-lg px-4 py-1 rounded-sm hover:bg-green-700 font-bold"
         >
-          Añadir tarea
+          <img width="28" height="28" src="https://img.icons8.com/color/28/add--v1.png" alt="add--v1"/>Crear
         </Link>
       </div>
       <div className="grid sm:grid-cols-2 text-lg md:grid-cols-3 gap-2 mx-3">

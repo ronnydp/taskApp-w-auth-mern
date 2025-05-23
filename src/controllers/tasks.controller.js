@@ -1,7 +1,7 @@
 import Task from "../models/tasks.model.js";
 
 export const getTasks = async (req, res) => {
-  const tasks = await Task.find({ user: req.user.id }).populate("user");
+  const tasks = await Task.find({ user: req.user.id }).populate("user").sort({createAt: -1});
   if (!tasks) {
     return res.status(404).json(["No hay tareas"]);
   }
@@ -41,6 +41,7 @@ export const updateTask = async (req, res) => {
     if (!task) return res.status(404).json(["Tarea no encontrada."]);
     return res.json(task);
   } catch (error) {
+    console.log(error)
     return res.status(500).json(["Error al actualizar la tarea"]);
   }
 };

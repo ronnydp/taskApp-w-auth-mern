@@ -22,6 +22,7 @@ function TaskFormPage() {
     async function loadTask() {
       if (params.id) {
         const task = await getTask(params.id);
+        console.log(task)
         setValue("title", task.title);
         setValue("description", task.description);
         setValue("date", dayjs.utc(task.date).format("YYYY-MM-DD"));
@@ -92,6 +93,7 @@ function TaskFormPage() {
             id="date"
             {...register("date", { required: true })}
             className="text-lg w-full bg-zinc-700 text-white px-2 py-2 rounded-md my-2 disabled"
+            disabled={params.id ? true : false}
           />
           {errors.date && <p className="text-red-500">Fecha es requerida</p>}
           <label htmlFor="date" className="text-lg font-semibold">

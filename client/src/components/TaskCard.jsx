@@ -1,57 +1,69 @@
 import { Link } from "react-router-dom";
-import { useTasks } from "../context/TasksContext";
-import days from "dayjs";
+
+import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
-days.extend(utc);
+import relativeTime from "dayjs/plugin/relativeTime";
+import "dayjs/locale/es";
+import KebabMenu from "./KebabMenu";
+dayjs.extend(utc);
+dayjs.extend(relativeTime);
+dayjs.locale("es");
 
 function TaskCard({ task }) {
-  const { deleteTask } = useTasks();
-  const today = days();
-  const dueDate = days(task.date);
+  
+  const today = dayjs().utc().startOf("day");
+  const dueDate = dayjs(task.date).utc().startOf("day");
+  const taskUpdated = dayjs(task.updatedAt).utc().startOf("day");
   const diffDays = dueDate.diff(today, "day");
+  const taskCompleted = task.completed;
+
+  function getRelativeDateText(diff, taskUpdated, taskCompleted) {
+    if (taskCompleted) {
+      return `Completado: ${taskUpdated.format("ddd DD MMM")}`;
+    }
+    if (diff === 0) return "Hoy";
+    if (diff === -1) return "Ayer";
+    if (diff === 1) return "Mañana";
+    if (diff < -1 && diffDays > -7) return `Hace ${Math.abs(diff)} días`;
+    if (diff <= -7) {
+      const weeks = Math.floor(Math.abs(diff) / 7);
+      return `Hace ${weeks} semana${weeks > 1 ? "s" : ""}`;
+    }
+    dueDate.from(dayjs().startOf("day"));
+  }
+
   return (
-    <div className="flex flex-col justify-between bg-zinc-800 max-w-md w-full p-5 rounded-md">
-      <div className="flex gap-x-2 items-center justify-end">
-        <button
-          className="bg-red-500 hover:bg-red-700 font-bold text-lg py-1 px-3 rounded-md my-2 cursor-pointer"
-          onClick={() => {
-            deleteTask(task._id);
-          }}
-        >
-          Eliminar
-        </button>
-        <Link
-          to={`/tasks/${task._id}`}
-          className="bg-yellow-500 hover:bg-yellow-700 font-bold text-lg py-1 px-3 rounded-md my-2 cursor-pointer"
-        >
-          Editar
+    <div className="flex flex-col justify-between bg-zinc-800 max-w-md w-full p-5 rounded-md hover:bg-zinc-900">
+      <div className="flex gap-x-2 items-center justify-between">
+        <Link to={"/add-subtask"}>
+          <span>
+            <img
+              width="28"
+              height="28"
+              src="https://img.icons8.com/color/28/add--v1.png"
+              alt="add--v1"
+            ></img>
+          </span>
         </Link>
+        <KebabMenu task={task} />
       </div>
-      <div className="flex flex-col items-start h-full mt-5">
-        <h1 className="text-2xl font-bold">{task.title}</h1>
-        <p className="text-slate-300 text-lg ">{task.description}</p>
+      <div className="flex flex-col items-start h-full mt-3">
+        <h1 className="text-2xl font-bold cursor-default">{task.title}</h1>
+        <p className="text-slate-300 text-lg cursor-default">
+          {task.description}
+        </p>
       </div>
-      <div className="flex justify-between items-center mt-7">
-        {!task.completed && (
-          <div>
-            {diffDays >= 1 && (
-              <p className="text-white-300 font-bold">{`⌛${days(task.date)
-                .utc()
-                .format("DD-MM-YYYY")}`}</p>
-            )}
-            {diffDays === 0 && (
-              <p className="text-yellow-400 font-bold">⚠️ ¡Queda 1 día!</p>
-            )}
-          </div>
-        )}
+      <div className="flex justify-between items-center mt-3">
         <p
-          className={
+          className={`cursor-default ${
             task.completed
-              ? "text-green-500 font-bold text-right"
-              : "text-red-500 font-bold text-right"
-          }
+              ? "text-white-500"
+              : diffDays === 0
+              ? "text-blue-400 font-bold"
+              : "text-red-600 font-bold"
+          }`}
         >
-          {task.completed ? "🟢 Completado" : "🔴 Pendiente"}
+          {getRelativeDateText(diffDays, taskUpdated, taskCompleted)}
         </p>
       </div>
     </div>

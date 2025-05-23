@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 function Dropdown() {
-    const { user, logout } = useAuth();
+  const { user, logout } = useAuth();
   return (
     <Menu as="div" className="relative inline-block tet-left">
       <div>

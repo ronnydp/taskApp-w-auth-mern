@@ -9,6 +9,5 @@ export const createTaskSchema = z.object({
     if (typeof val === "string") return val === "true";
     return val;
   }, z.boolean()),
-
   date: z.string({ required_error: "La fecha es requerida" }),
 });
