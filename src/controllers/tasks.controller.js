@@ -1,13 +1,14 @@
 import Task from "../models/tasks.model.js";
 
 export const getTasks = async (req, res) => {
-  const tasks = await Task.find({ user: req.user.id }).populate("user").sort({createAt: -1});
+  const tasks = await Task.find({ user: req.user.id })
+    .populate("user")
+    .sort({ createdAt: -1 });
   if (!tasks) {
     return res.status(404).json(["No hay tareas"]);
   }
   return res.status(200).json(tasks);
 };
-
 export const createTask = async (req, res) => {
   try {
     const { title, description, date } = req.body;
@@ -20,7 +21,7 @@ export const createTask = async (req, res) => {
     const savedTask = await newTask.save();
     return res.status(201).json(savedTask);
   } catch (error) {
-    console.log(error)
+    console.log(error);
     return res.status(500).json(["Error al crear la tarea"]);
   }
 };
@@ -41,7 +42,7 @@ export const updateTask = async (req, res) => {
     if (!task) return res.status(404).json(["Tarea no encontrada."]);
     return res.json(task);
   } catch (error) {
-    console.log(error)
+    console.log(error);
     return res.status(500).json(["Error al actualizar la tarea"]);
   }
 };
@@ -54,7 +55,7 @@ export const deleteTask = async (req, res) => {
     if (!task) return res.status(404).json(["Tarea no encontrada."]);
     return res.status(204).json(task);
   } catch (error) {
-    console.log(error)
+    console.log(error);
     return res.status(500).json(["Error al eliminar la tarea"]);
   }
 };

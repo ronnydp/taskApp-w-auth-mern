@@ -22,7 +22,7 @@ function TaskFormPage() {
     async function loadTask() {
       if (params.id) {
         const task = await getTask(params.id);
-        console.log(task)
+        console.log(task);
         setValue("title", task.title);
         setValue("description", task.description);
         setValue("date", dayjs.utc(task.date).format("YYYY-MM-DD"));
@@ -45,10 +45,10 @@ function TaskFormPage() {
   });
   return (
     <>
-      <h1 className="text-4xl font-bold mx-3">
-        {params.id ? "Editar tarea" : "Añadir tarea"}
-      </h1>
-      <div className="bg-zinc-800 w-full max-w-md p-10 rounded-md my-2 mx-3">
+      <div className="bg-zinc-800 max-w-md p-10 rounded-md">
+        <h1 className="text-4xl font-bold">
+          {params.id ? "Editar tarea" : "Añadir tarea"}
+        </h1>
         {taskErrors.map((error, index) => (
           <div
             key={index}
@@ -58,9 +58,6 @@ function TaskFormPage() {
           </div>
         ))}
         <form onSubmit={onSubmit}>
-          <label htmlFor="taskname" className="text-lg font-semibold">
-            Tarea
-          </label>
           <input
             id="taskname"
             type="text"
@@ -72,9 +69,6 @@ function TaskFormPage() {
           {errors.title && (
             <p className="text-red-500">El título es requerido</p>
           )}
-          <label htmlFor="description" className="text-lg font-semibold">
-            Descripción
-          </label>
           <textarea
             id="description"
             rows="3"
@@ -85,9 +79,6 @@ function TaskFormPage() {
           {errors.description && (
             <p className="text-red-500">La descripción es requerida</p>
           )}
-          <label htmlFor="date" className="text-lg font-semibold">
-            Fecha límite
-          </label>
           <input
             type="date"
             id="date"
@@ -96,9 +87,6 @@ function TaskFormPage() {
             disabled={params.id ? true : false}
           />
           {errors.date && <p className="text-red-500">Fecha es requerida</p>}
-          <label htmlFor="date" className="text-lg font-semibold">
-            Estado
-          </label>
           <div>
             <select
               {...register("completed", {

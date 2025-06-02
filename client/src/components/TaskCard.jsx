@@ -1,5 +1,3 @@
-import { Link } from "react-router-dom";
-
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import relativeTime from "dayjs/plugin/relativeTime";
@@ -13,7 +11,7 @@ function TaskCard({ task }) {
   
   const today = dayjs().utc().startOf("day");
   const dueDate = dayjs(task.date).utc().startOf("day");
-  const taskUpdated = dayjs(task.updatedAt).utc().startOf("day");
+  const taskUpdated = dayjs(task.updatedAt).startOf("day");
   const diffDays = dueDate.diff(today, "day");
   const taskCompleted = task.completed;
 
@@ -34,21 +32,11 @@ function TaskCard({ task }) {
 
   return (
     <div className="flex flex-col justify-between bg-zinc-800 max-w-md w-full p-5 rounded-md hover:bg-zinc-900">
-      <div className="flex gap-x-2 items-center justify-between">
-        <Link to={"/add-subtask"}>
-          <span>
-            <img
-              width="28"
-              height="28"
-              src="https://img.icons8.com/color/28/add--v1.png"
-              alt="add--v1"
-            ></img>
-          </span>
-        </Link>
+      <div className="flex gap-x-2 justify-between">
+        <h1 className="text-2xl font-bold cursor-default">{task.title}</h1>
         <KebabMenu task={task} />
       </div>
-      <div className="flex flex-col items-start h-full mt-3">
-        <h1 className="text-2xl font-bold cursor-default">{task.title}</h1>
+      <div className="flex flex-col items-start h-full">
         <p className="text-slate-300 text-lg cursor-default">
           {task.description}
         </p>
@@ -60,6 +48,8 @@ function TaskCard({ task }) {
               ? "text-white-500"
               : diffDays === 0
               ? "text-blue-400 font-bold"
+              : diffDays > 0
+              ? "text-white-500 font-bold"
               : "text-red-600 font-bold"
           }`}
         >

@@ -20,7 +20,7 @@ router.post(
   createTask
 );
 router.get("/tasks/:id", authRequire, getTask);
-router.put("/tasks/:id", authRequire, updateTask);
 router.delete("/tasks/:id", authRequire, deleteTask);
+router.put("/tasks/:id", authRequire, updateTask);
 
 export default router;
