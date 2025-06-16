@@ -1,10 +1,11 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useTasks } from "../context/TasksContext.jsx";
 import TaskCard from "../components/TaskCard.jsx";
 import { Link } from "react-router-dom";
 
 function TaskPage() {
   const { getTasks, tasks } = useTasks();
+  const [activeCalendarId, setActiveCalendarId] = useState(null);
   useEffect(() => {
     getTasks();
   }, []);
@@ -31,7 +32,16 @@ function TaskPage() {
             <h1 className="mx-3">No hay tareas</h1>
           </>
         ) : (
-          tasks.map((task) => <TaskCard key={task._id} task={task} />)
+          tasks.map((task) => (
+            <TaskCard
+              key={task._id}
+              task={task}
+              isCalendarOpen={activeCalendarId === task._id}
+              onToggleCalendar={() =>
+                setActiveCalendarId((prev) => (prev === task._id ? null : task._id))
+              }
+            />
+          ))
         )}
       </div>
     </div>

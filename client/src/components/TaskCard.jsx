@@ -1,37 +1,24 @@
-import dayjs from "dayjs";
-import utc from "dayjs/plugin/utc";
-import relativeTime from "dayjs/plugin/relativeTime";
-import "dayjs/locale/es";
 import KebabMenu from "./KebabMenu";
-dayjs.extend(utc);
-dayjs.extend(relativeTime);
-dayjs.locale("es");
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { useRef, useState } from "react";
+import useTaskDate from "../hooks/useTaskDate";
+import useOutsideClick from "../hooks/useOutsideClick";
+import { getRelativeDateText } from "../utils/dateUtils";
 
-function TaskCard({ task }) {
-  
-  const today = dayjs().utc().startOf("day");
-  const dueDate = dayjs(task.date).utc().startOf("day");
-  const taskUpdated = dayjs(task.updatedAt).startOf("day");
-  const diffDays = dueDate.diff(today, "day");
-  const taskCompleted = task.completed;
+function TaskCard({ task, isCalendarOpen, onToggleCalendar }) {
+  const {today, dueDate, taskUpdated, diffDays} = useTaskDate(task.date, task.updatedAt)
 
-  function getRelativeDateText(diff, taskUpdated, taskCompleted) {
-    if (taskCompleted) {
-      return `Completado: ${taskUpdated.format("ddd DD MMM")}`;
-    }
-    if (diff === 0) return "Hoy";
-    if (diff === -1) return "Ayer";
-    if (diff === 1) return "Mañana";
-    if (diff < -1 && diffDays > -7) return `Hace ${Math.abs(diff)} días`;
-    if (diff <= -7) {
-      const weeks = Math.floor(Math.abs(diff) / 7);
-      return `Hace ${weeks} semana${weeks > 1 ? "s" : ""}`;
-    }
-    dueDate.from(dayjs().startOf("day"));
+  const [date, setDate] = useState(null);
+  const calendarRef = useRef(null);
+
+  const handleOutsideClick = () => {
+    onToggleCalendar(null) // Esto cierra el calendario
   }
+  useOutsideClick(calendarRef, handleOutsideClick)
 
   return (
-    <div className="flex flex-col justify-between bg-zinc-800 max-w-md w-full p-5 rounded-md hover:bg-zinc-900">
+    <div className="flex flex-col justify-between bg-zinc-800 max-w-md w-full p-5 rounded-md hover:bg-zinc-900 select-none">
       <div className="flex gap-x-2 justify-between">
         <h1 className="text-2xl font-bold cursor-default">{task.title}</h1>
         <KebabMenu task={task} />
@@ -41,9 +28,12 @@ function TaskCard({ task }) {
           {task.description}
         </p>
       </div>
-      <div className="flex justify-between items-center mt-3">
+      <div
+        className="flex justify-between items-center mt-3 rounded-2xl px-2.5 w-fit hover:bg-zinc-800 border border-zinc-600 cursor-pointer"
+        onClick={onToggleCalendar}
+      >
         <p
-          className={`cursor-default ${
+          className={`cursor-pointer  ${
             task.completed
               ? "text-white-500"
               : diffDays === 0
@@ -53,9 +43,22 @@ function TaskCard({ task }) {
               : "text-red-600 font-bold"
           }`}
         >
-          {getRelativeDateText(diffDays, taskUpdated, taskCompleted)}
+          {getRelativeDateText(today, dueDate, diffDays, taskUpdated, task.completed)}
         </p>
       </div>
+      {isCalendarOpen && (
+        <div className="absolute z-10 mt-2" ref={calendarRef}>
+          <DatePicker
+            id={task._id}
+            selected={date}
+            onChange={(date) => {
+              setDate(date);
+              setShowCalendar(false); // cerrar calendario al seleccionar
+            }}
+            inline
+          />
+        </div>
+      )}
     </div>
   );
 }
